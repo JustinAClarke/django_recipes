@@ -1,0 +1,65 @@
+{% extends "recipes/base.html" %}
+
+
+{% block content %}
+    <form action="{% url 'recipes:search' %}" method="get">
+        <table>
+            <tr>
+                <td>
+                    {% if search.q %}
+
+                        <input name="q" type="text" value="{{ search.q }}"></input>
+                    {% else %}
+                        <input name="q" type="text" value=""></input>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if search.title  %}
+                        <input type="checkbox" name="title" checked="true">Title</input>
+                    {% else %}
+                        {% if search.q %}
+                               <input type="checkbox" name="title">Title</input>
+                        {% else %}
+                              <input type="checkbox" name="title" checked="true">Title</input>
+                        {% endif %}
+                    {% endif %}
+                    
+                </td>
+                <td>
+                    {% if search.method  %}
+                        <input type="checkbox" name="method" checked="true">Method</input>
+                    {% else %}
+                        <input type="checkbox" name="method">Method</input>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if search.ingredients  %}
+                        <input type="checkbox" name="ingredients" checked="true">Ingredients</input>
+                    {% else %}
+                        <input type="checkbox" name="ingredients">Ingredients</input>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if search.notes  %}
+                        <input type="checkbox" name="notes" checked="true">Notes</input>
+                    {% else %}
+                    <input type="checkbox" name="notes">Notes</input>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Search"></input>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    {% include "recipes/recipes_list.html" %}    
+
+
+{% endblock %}

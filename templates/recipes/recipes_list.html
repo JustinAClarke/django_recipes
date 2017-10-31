@@ -1,0 +1,7 @@
+<ul>
+    {% for recipe in recipes %}
+        <li><a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a></li>
+    {% empty %}
+        <li>No Recipes, Try adding one <a href="{% url 'recipes:index' %}">here</a></li>
+    {% endfor %}
+</ul>

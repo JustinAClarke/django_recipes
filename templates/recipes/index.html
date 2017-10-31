@@ -1,0 +1,15 @@
+{% extends "recipes/base.html" %}
+
+
+{% block content %}
+    <ul>
+    {% for category in categories %}
+        <li><a href="{% url 'recipes:category' category.id %}">{{ category.Title }}</a></li>
+
+        {% with category.recipe_set.all as recipes %} 
+            {% include "recipes/recipes_list.html" %}    
+        {% endwith %}
+        
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "recipes/base.html" %}
+
+
+{% block content %}
+    {{category}}
+        {% with category.recipe_set.all as recipes %} 
+            {% include "recipes/recipes_list.html" %}    
+        {% endwith %}
+
+{% endblock %}
