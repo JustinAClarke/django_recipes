@@ -2,6 +2,8 @@
 
 
 {% block content %}
+    <a href="{% url 'recipes:editRecipe' recipe.id %}">Edit Recipe</a><br>
+    
     title:{{recipe.Title}}<br>
 
     category:<a href="{% url 'recipes:category' recipe.Category_id %}">{{ recipe.Category }}</a><br>
@@ -10,14 +12,14 @@
     Serves:{{ recipe.Serves }}<br>
     Ingredients:
     <ul>
-    {% for ingredient in recipe.ingredent_set.all %}
+    {% for ingredient in recipe.Ingredient_set.all %}
         
         <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }}</li>
         
     {% endfor %}
     </ul>
     
-    Method:{{ recipe.Method }}<br>
+    Method:{{ recipe.Method | safe }}<br>
     Notes:{{ recipe.Notes }}<br>
     Image:{{ recipe.Image }}<br>
 

@@ -25,9 +25,12 @@ In building this in PHP I have worked out what does and does not work.
 
 ### TODO
 
- * Front ability to add and edit recipes
+ * Front ability to add and edit recipes (Partly Working)
  * Image upload
  * Search in navbar (design)
  * Themes?
  * Allow external use (externmal links to recipes, with no authentication)
  * Side by side view for recipes (This was requested)
+ * Import / export for recipes
+ * Get Ingredients working correctly
+ * Add / Remove Categories
