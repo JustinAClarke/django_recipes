@@ -11,8 +11,14 @@
     <div id="sidebar">
         {% block sidebar %}
         <ul>
+            {% load get_categories %}
             <li><a href="{% url 'recipes:index' %}">Home</a></li>
+            <li><a href="{% url 'recipes:all' %}">All Recipes</a></li>
             <li><a href="{% url 'recipes:addRecipe' %}">Add Recipe</a></li>
+            <li><a href="#">Categories</a>
+            {% get_categories %}
+            </li>
+            <li><a href="{% url 'recipes:search' %}">Search</a></li>
         </ul>
         {% endblock %}
     </div>

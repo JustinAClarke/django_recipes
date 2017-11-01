@@ -16,6 +16,9 @@ urlpatterns = [
     # ex: /recipe/<query>
     url(r'^search/$', views.search, name='search'),
     
+    # ex: /recipe/all
+    url(r'^all/$', views.all, name='all'),
+    
     # ex: /recipe/add
     url(r'^add/(?P<category>[0-9]+)/$', views.addRecipe, name='addRecipeCat'),
     url(r'^add/$', views.addRecipe, name='addRecipe'),

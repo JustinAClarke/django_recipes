@@ -16,6 +16,11 @@ def index(request):
     context = {'categories': categories}
     return render(request, 'recipes/index.html', context)
 
+def all(request):
+    categories = Category.objects.all().order_by('Title')
+    context = {'categories': categories}
+    return render(request, 'recipes/all.html', context)
+
 
 def category(request, category):
     category = get_object_or_404(Category, pk=category)
