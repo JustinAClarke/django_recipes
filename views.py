@@ -41,13 +41,15 @@ def all(request):
 
 def category(request, category):
     category = get_object_or_404(Category, pk=category)
-    return render(request, 'recipes/category.html', {'category': category,'title':getTitle()})
+    context = {'category': category,'title':getTitle()}
+    return render(request, 'recipes/category.html', context)
 
 def recipe(request, category, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
     if( recipe.Deleted ):
         return render(request, 'recipes/index.html', {'error_message': "Unable to find Recipe.",})
-    return render(request, 'recipes/recipe.html', {'recipe': recipe,'title':getTitle()})
+    context = {'recipe': recipe,'title':getTitle(recipe.Title)}
+    return render(request, 'recipes/recipe.html', context)
 
 def search(request):
     recipes=Recipe.objects.none()
@@ -62,7 +64,7 @@ def search(request):
         if(request.GET.get('ingredients',default=None)):
             recipes = recipes.union(Recipe.objects.filter(Ingredient__Title__icontains=request.GET['q']),recipes)
             
-    context = {'search':request.GET,'recipes':recipes,'title':getTitle()}
+    context = {'search':request.GET,'recipes':recipes,'title':getTitle("Search")}
     return render(request, 'recipes/search.html', context)
 
 
@@ -74,11 +76,12 @@ def addRecipe(request,category=-1):
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
         recipe = RecipeForm()
-
-    return render(request, 'recipes/add_edit_recipe.html',{'request':request,'form':recipe,'category':category,'title':getTitle()})
+    context = {'request':request,'form':recipe,'category':category,'title':getTitle("Add New")}
+    return render(request, 'recipes/add_edit_recipe.html',context)
 
 def editRecipe(request, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
+    title=getTitle("Edit '" + recipe.Title +"'")
     if request.method == "POST":
         recipe = RecipeForm(request.POST,instance=recipe) # A form bound to the POST data
         if recipe.is_valid(): # All validation rules pass
@@ -86,7 +89,8 @@ def editRecipe(request, recipe):
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
         recipe = RecipeForm(instance=recipe)
-    return render(request, 'recipes/add_edit_recipe.html', {'recipe': recipe,'form':recipe,'title':getTitle()})
+    context = {'recipe': recipe,'form':recipe,'title':title}
+    return render(request, 'recipes/add_edit_recipe.html', context )
 
 
 
@@ -96,6 +100,9 @@ def test(request, recipe):
 
     return HttpResponseRedirect(reverse('recipes:single', args=(recipe.Category_id,recipe.id)))
     
-def getTitle(title="Recipes"):
-    return title
+def getTitle(title=""):
+    string = "Recipes"
+    if(title):
+        string += " - " + title
+    return string
     

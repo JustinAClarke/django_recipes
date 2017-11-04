@@ -5,3 +5,4 @@ document.getElementById("categories").onclick = function(){
     else
         obj.style.display = "none";
 }
+
