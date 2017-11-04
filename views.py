@@ -30,24 +30,24 @@ from .forms import *
 
 def index(request):
     categories = Category.objects.all().order_by('Title')
-    context = {'categories': categories}
+    context = {'categories': categories,'title':getTitle()}
     return render(request, 'recipes/index.html', context)
 
 def all(request):
     categories = Category.objects.all().order_by('Title')
-    context = {'categories': categories}
+    context = {'categories': categories,'title':getTitle()}
     return render(request, 'recipes/all.html', context)
 
 
 def category(request, category):
     category = get_object_or_404(Category, pk=category)
-    return render(request, 'recipes/category.html', {'category': category})
+    return render(request, 'recipes/category.html', {'category': category,'title':getTitle()})
 
 def recipe(request, category, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
     if( recipe.Deleted ):
         return render(request, 'recipes/index.html', {'error_message': "Unable to find Recipe.",})
-    return render(request, 'recipes/recipe.html', {'recipe': recipe})
+    return render(request, 'recipes/recipe.html', {'recipe': recipe,'title':getTitle()})
 
 def search(request):
     recipes=Recipe.objects.none()
@@ -62,7 +62,7 @@ def search(request):
         if(request.GET.get('ingredients',default=None)):
             recipes = recipes.union(Recipe.objects.filter(Ingredient__Title__icontains=request.GET['q']),recipes)
             
-    context = {'search':request.GET,'recipes':recipes}
+    context = {'search':request.GET,'recipes':recipes,'title':getTitle()}
     return render(request, 'recipes/search.html', context)
 
 
@@ -75,7 +75,7 @@ def addRecipe(request,category=-1):
     else:
         recipe = RecipeForm()
 
-    return render(request, 'recipes/add_edit_recipe.html',{'request':request,'form':recipe,'category':category})
+    return render(request, 'recipes/add_edit_recipe.html',{'request':request,'form':recipe,'category':category,'title':getTitle()})
 
 def editRecipe(request, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
@@ -86,7 +86,7 @@ def editRecipe(request, recipe):
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
         recipe = RecipeForm(instance=recipe)
-    return render(request, 'recipes/add_edit_recipe.html', {'recipe': recipe,'form':recipe})
+    return render(request, 'recipes/add_edit_recipe.html', {'recipe': recipe,'form':recipe,'title':getTitle()})
 
 
 
@@ -95,4 +95,7 @@ def test(request, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
 
     return HttpResponseRedirect(reverse('recipes:single', args=(recipe.Category_id,recipe.id)))
+    
+def getTitle(title="Recipes"):
+    return title
     

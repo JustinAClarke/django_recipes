@@ -1,5 +1,5 @@
 
-<ul>
+<ul id="categoriesList">
 {% for category in categories %}
     <li><a href="{% url 'recipes:category' category.id %}">{{ category.Title }}</a></li>
 

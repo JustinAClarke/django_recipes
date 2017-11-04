@@ -1,0 +1,61 @@
+#main{
+    padding-top:2%;
+    margin-top:2%;
+    margin-left:5%;
+    width:90%;
+    left:5%;
+    right:5%;
+    background-color:lightblue;
+}
+#content{
+    background-color:lightgreen;
+}
+
+
+
+#navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#navbar li {
+    float: left;
+}
+
+#navbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+#navbar li a:hover {
+    background-color: #111;
+}
+
+#categoriesList{
+    display: none;
+    position: absolute;
+}
+
+#categoriesList li{
+    float: none;
+    display: block;
+}
+
+#categoriesList a{
+    text-align: left;
+    display: block;
+
+}
+
+#title{
+    /*padding-top:3%;*/
+    margin-left:2%;
+    padding:1%;
+}

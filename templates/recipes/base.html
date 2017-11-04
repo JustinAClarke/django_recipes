@@ -20,30 +20,38 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
     """
 -->
-    <link rel="stylesheet" href="style.css" />
+{% load static %}
+    <link rel="stylesheet" href="{% static 'recipes/css/style.css' %}" />
+    
     <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
-    <title>{% block title %}Recipes{% endblock %}</title>
+    <title>{{ title }}</title>
 </head>
 
 <body>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <div id="sidebar">
-        {% block sidebar %}
-        <ul>
-            {% load get_categories %}
-            <li><a href="{% url 'recipes:index' %}">Home</a></li>
-            <li><a href="{% url 'recipes:all' %}">All Recipes</a></li>
-            <li><a href="{% url 'recipes:addRecipe' %}">Add Recipe</a></li>
-            <li><a href="#">Categories</a>
-            {% get_categories %}
-            </li>
-            <li><a href="{% url 'recipes:search' %}">Search</a></li>
-        </ul>
-        {% endblock %}
-    </div>
+    <div id="main">
+        <div id="title">
+            <h1>{{ title }}</h1>
+        </div>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <div id="navbar">
+            {% block navbar %}
+            <ul>
+                {% load get_categories %}
+                <li><a href="{% url 'recipes:index' %}">Home</a></li>
+                <li><a href="{% url 'recipes:all' %}">All Recipes</a></li>
+                <li><a href="{% url 'recipes:addRecipe' %}">Add Recipe</a></li>
+                <li id="categories"><a href="#">Categories</a>
+                {% get_categories %}
+                </li>
+                <li><a href="{% url 'recipes:search' %}">Search</a></li>
+            </ul>
+            {% endblock %}
+        </div>
 
-    <div id="content">
-        {% block content %}{% endblock %}
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
     </div>
+    <script type="text/javascript" src="{% static 'recipes/js/main.js' %}" ></script>
 </body>
 </html>
