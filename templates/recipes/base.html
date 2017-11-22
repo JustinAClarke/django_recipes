@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{% static 'recipes/css/style.css' %}" />
     
     <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+    {% include "styles.html" %}
     <title>{{ title }}</title>
 </head>
 
@@ -53,5 +54,6 @@
         </div>
     </div>
     <script type="text/javascript" src="{% static 'recipes/js/main.js' %}" ></script>
+    {% include "scripts.html" %}
 </body>
 </html>
