@@ -1,0 +1,19 @@
+{% extends "recipes/base.html" %}
+
+
+{% block content %}
+
+{{ imported }}
+
+<form action="" method="post">
+    {% csrf_token %}
+        <p><a href="{% url 'recipes:get_import_example' %}">Download Example</a></p>
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            <p>Upload new<input type="file" name="csv"></p>
+        </div>
+            <input type="Submit" value="Import">
+        
+
+</form>
+{% endblock %}

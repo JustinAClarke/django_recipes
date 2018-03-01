@@ -93,7 +93,22 @@ def editRecipe(request, recipe):
     return render(request, 'recipes/add_edit_recipe.html', context )
 
 
+def import_csv(request):
+    context = {}
+    if request.method == "POST":
+        context['imported'] = "import POST"
+        file = request.files['file']
+        
+    else:
+        context['imported' ]= "not yet ;)"
+    return render(request, 'recipes/import_csv.html', context )
+    
 
+def get_import_example(request):
+    return render(request, 'recipes/import_example.html')
+    
+def export_csv(request):
+    pass
 
 def test(request, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)

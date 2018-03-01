@@ -42,7 +42,10 @@ class Recipe(models.Model):
     
     
     def __str__(self):
-        return self.Title
+        if(self.Deleted):
+            return "Deleted - " + self.Title
+        else:
+            return self.Title
 
 class Ingredient(models.Model):
     Title = models.CharField(max_length=250)
