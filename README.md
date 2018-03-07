@@ -53,3 +53,14 @@ In building this in PHP I have worked out what does and does not work.
  * Import / export for recipes
  * Get Ingredients working correctly
  * Add / Remove Categories
+
+ * LCA2018 web2.0 notes ```
+modual -> controler -> view
+
+API-first development
+
+client side validation and modules
+
+
+client build? pybee.org
+```
