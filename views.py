@@ -18,7 +18,7 @@
 # Create your views here.
 
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 
 from django.urls import reverse
 
@@ -48,7 +48,9 @@ def recipe(request, category, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
     if( recipe.Deleted ):
         return render(request, 'recipes/index.html', {'error_message': "Unable to find Recipe.",})
-    context = {'recipe': recipe,'title':getTitle(recipe.Title)}
+        
+    ingredients=recipe.ingredient_set.all()
+    context = {'recipe': recipe,'ingredients':ingredients,'title':getTitle(recipe.Title)}
     return render(request, 'recipes/recipe.html', context)
 
 def search(request):
@@ -121,3 +123,30 @@ def getTitle(title=""):
         string += " - " + title
     return string
     
+#API's
+
+def get_ing(request,recipe=-1):
+    recipe = get_object_or_404(Recipe, pk=recipe)
+    count=recipe.ingredient_set.count()
+    error=0
+    if( recipe.Deleted ):
+        error=1
+        data={
+            'error':'Deleted'
+        }
+    if( not count ):
+        error=1
+        data={
+            'error':'No Ingredients'
+        }
+        ingredients=recipe.ingredient_set.all()
+    if( not error ):
+        data={
+            'ingredients':recipe.ingredient_set.all().values_list()
+            }
+    return JsonResponse(data)
+    
+
+def add_ing(request):
+    pass
+

@@ -52,6 +52,10 @@ urlpatterns = [
     # ex: /recipe/export
     url(r'^export/$', views.export_csv, name='export_csv'),
     
+    #api's
+    url(r'^api/get_ing/(?P<recipe>[0-9]+)/$', views.get_ing, name='get_ing'),
+    url(r'^api/add_ing/$', views.add_ing, name='add_ing'),
+    
     
     url(r'^test/(?P<recipe>[0-9]+)/$', views.test, name='test'),
     

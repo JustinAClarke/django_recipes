@@ -12,11 +12,15 @@
     Serves:{{ recipe.Serves }}<br>
     Ingredients:
     <ul>
-    {% for ingredient in recipe.Ingredient_set.all %}
-        
-        <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }}</li>
-        
-    {% endfor %}
+    {% if not recipe.Ingredient_set.count %}
+        <li>No Ingredients</li>
+    {% else %}
+        {% for ingredient in recipe.Ingredient_set.all %}
+            
+            <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }}</li>
+            
+        {% endfor %}
+    {% endif %}
     </ul>
     
     Method:{{ recipe.Method | safe }}<br>
