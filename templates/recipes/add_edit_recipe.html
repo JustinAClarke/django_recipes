@@ -3,8 +3,6 @@
 
 {% block content %}
 
-
-
 <form action="" method="post">
     {% csrf_token %}
     
@@ -25,6 +23,7 @@
         {% if field.help_text %}
         <p class="help">{{ field.help_text|safe }}</p>
         {% endif %}
+        <button id="new_cat">Add New</button>
     </div>
     {% endwith %}
     
@@ -81,11 +80,11 @@
     {# end ing#}
     <ul>
     {% if not recipe.Ingredient_set.count %}
-        <li>No Ingredients</li>
+        <li>No Ingredients - <button id="addTest" class="ingredient_change" data-action="add">Add</button></li>
     {% else %}
         {% for ingredient in recipe.Ingredient_set.all %}
             
-            <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }}</li>
+            <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }} - <button class="ingredient_change" data-action="edit" data-id="{{ ingredient.id }}">Edit</button> <button class="ingredient_change" data-action="delete" data-id="{{ ingredient.id }}">X</button></li>
             
         {% endfor %}
     {% endif %}
@@ -125,4 +124,110 @@
     
     <input type='submit' value='Save'>
 </form>
+<script type='text/javascript'>
+    document.getElementById("new_cat").onclick=function(){
+        /*
+        var win=window.open('{% url "recipes:category_add" %}','','scrollbars=no,menubar=no,location=no')
+        var submit=win.document.getElementById('submit');
+        submit.onclick=function(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "{% url 'recipes:add_cat' %}", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("fname=Henry&lname=Ford");
+            
+        }
+        */
+        var new_cat = prompt("New Category");
+        if( (new_cat == '') && (new_cat != Null) )
+            return false;
+            
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if( this.readyState !=4)
+                return 0;
+            var resp = this.response;
+            console.log(resp);
+            var new_cat_resp=JSON.parse(resp);
+            var cat_select = document.getElementById('id_Category');
+            var new_cat_opt = document.createElement('option');
+            new_cat_opt.setAttribute('value',new_cat_resp.cat_id);
+            new_cat_opt.innerHTML = new_cat_resp.cat_title;
+            cat_select.append(new_cat_opt);
+            
+            var children = cat_select.children;
+            for(var i=0; i<children.length; i++){
+                    children[i].removeAttribute('selected');
+                }
+            children[children.length-1].setAttribute('selected','');
+        }
+        
+        xhttp.open("POST", "{% url 'recipes:add_cat' %}", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var url = "new_cat="+new_cat+"&csrfmiddlewaretoken={{ csrf_token }}";
+        xhttp.send(url);
+        
+        
+
+        
+    }
+    
+    
+    function ingredient_change(){
+        console.log('run');
+        //event.preventDefault();
+        //this_obj.preventDefault();
+        var t=this;
+        var win=false;
+        console.log(t);
+        console.log(t.getAttribute('data-action'));
+        switch(t.getAttribute('data-action')){
+            case 'add':
+                win=window.open('{% url "recipes:ingredient_add" %}','','scrollbars=no,menubar=no,location=no')
+                break;
+            case 'edit':
+                win=window.open('{% url "recipes:ingredients" %}'+t.attributes['data-id'].value+'/edit/','','scrollbars=no,menubar=no,location=no')
+                break;
+            case 'delete':
+                if (window.confirm("Are you sure?")) {
+                    win=window.open('{% url "recipes:ingredients" %}','','scrollbars=no,menubar=no,location=no')
+                }
+                
+                break;
+            default:
+        }
+    
+        var form_sub = "";
+        var form = win.document.forms.item(0);
+        form.addEventListener("submit", function(event){
+            event.preventDefault();
+            var formLen = form.elements.length;
+            for(var i=0; i<formLen; i++){
+                form_sub += form[i].name +'='+form[i].value+'&';
+            }
+            
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if( this.readyState !=4)
+                    return 0;
+                var resp = this.response;
+                console.log(resp);
+                var new_ing_resp=JSON.parse(resp);
+                console.log(new_ing_resp);
+            }
+            
+            xhttp.open("POST", "{% url 'recipes:add_ing' %}", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            var url = form_sub+"csrfmiddlewaretoken={{ csrf_token }}";
+            xhttp.send(url);
+        }, true);
+        return false;
+    }
+    
+    var ingredient_change_butons = document.getElementsByClassName("ingredient_change");
+    for(var i=0; i<ingredient_change_butons.length; i++){
+        ingredient_change_butons[i].onclick=ingredient_change();
+    }
+
+    
+</script>
 {% endblock %}

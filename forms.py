@@ -36,11 +36,14 @@ class RecipeForm(ModelForm):
                     'Notes',
                     'Image',
                 ]"""
+        exclude = ['Deleted']
 
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
         fields = [ 'Title' ]
+        #field_classes = {'Title':'cat_form'}
+        
 
 
 class IngredientForm(ModelForm):

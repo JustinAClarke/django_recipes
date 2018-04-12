@@ -4,6 +4,6 @@
             <li><a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a></li>
             {% endif %}
     {% empty %}
-        <li>No Recipes, Try adding one <a href="{% url 'recipes:addRecipe' %}">here</a></li>
+        <li>No Recipes, Try adding one <a href="{% url 'recipes:addRecipe' category.id %}">here</a></li>
     {% endfor %}
 </ul>

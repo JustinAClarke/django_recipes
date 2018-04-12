@@ -21,7 +21,7 @@ from django.db import models
 
 
 class Category(models.Model):
-    Title = models.CharField(max_length=250)
+    Title = models.CharField(max_length=250,unique=True)
     
     def __str__(self):
         return self.Title
@@ -50,7 +50,7 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     Title = models.CharField(max_length=250)
     Unit = models.CharField(max_length=250)
-    Recipe = models.ForeignKey(Recipe)
+    Recipe = models.ForeignKey(Recipe,null=True)
     Quantity = models.FloatField()
     
     def __str__(self):

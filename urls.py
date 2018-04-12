@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^all/$', views.all, name='all'),
     
     # ex: /recipe/add
-    url(r'^add/(?P<category>[0-9]+)/$', views.addRecipe, name='addRecipeCat'),
+    url(r'^add/(?P<category>[0-9]+)/$', views.addRecipe, name='addRecipe'),
     url(r'^add/$', views.addRecipe, name='addRecipe'),
     
     # ex: /recipe/edit/<recipe>
@@ -51,10 +51,18 @@ urlpatterns = [
     
     # ex: /recipe/export
     url(r'^export/$', views.export_csv, name='export_csv'),
+
+
+    url(r'^category/add$', views.category_add, name='category_add'),
+    
+    url(r'^ingredient/add$', views.ingredient_add, name='ingredient_add'),
+    url(r'^ingredient/$', views.ingredients, name='ingredients'),
+    url(r'^ingredient/(?P<ing_id>[0-9]+)/(?P<action>[a-z]+w)$', views.ingredients, name='ingredients'),
     
     #api's
     url(r'^api/get_ing/(?P<recipe>[0-9]+)/$', views.get_ing, name='get_ing'),
     url(r'^api/add_ing/$', views.add_ing, name='add_ing'),
+    url(r'^api/add_cat/$', views.add_cat, name='add_cat'),
     
     
     url(r'^test/(?P<recipe>[0-9]+)/$', views.test, name='test'),
