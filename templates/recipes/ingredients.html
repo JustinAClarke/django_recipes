@@ -1,12 +1,14 @@
+
+
+
+<li>
+    Title: <input type="text" name='ing_title_{{count}}'>
+    Unit/Amount: <input type="text" name='ing_unit_{{count}}'>
+    Quantity: <input type="text" name='ing_quantity_{{count}}'>
+</li>
+
+
 <!--form>
-    <ul>
-    <li>Title: <input type="text" name='title'></li>
-    <li>Unit/Amount: <input type="text" name='unit'></li>
-    <li>Quantity: <input type="text" name='quantity'></li>
-    <li><input type="submit" value='Save'></li>
-    </ul>
-</form-->
-<form>
     {% for field in form %}
         <div class="fieldWrapper">
             {{ field.errors }}
@@ -18,4 +20,4 @@
         
     {% endfor %}
 <input id="submit" type='submit' value='Save'>
-</form>
+</form-->

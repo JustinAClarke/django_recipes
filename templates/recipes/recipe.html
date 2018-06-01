@@ -3,29 +3,50 @@
 
 {% block content %}
     <a href="{% url 'recipes:editRecipe' recipe.id %}">Edit Recipe</a><br>
+    <br>
     
-    title:{{recipe.Title}}<br>
-
-    category:<a href="{% url 'recipes:category' recipe.Category_id %}">{{ recipe.Category }}</a><br>
-    Prep_Time:{{ recipe.Prep_Time_hour }} Prep_Time:{{ recipe.Prep_Time_min }}<br>
-    Cook_Time:{{ recipe.Cook_Time_hour }} Cook_Time:{{ recipe.Cook_Time_min }}<br>
-    Serves:{{ recipe.Serves }}<br>
+    Title: {{recipe.Title}}<br>
+<br>
+    Category: <a href="{% url 'recipes:category' recipe.Category_id %}">{{ recipe.Category }}</a><br>
+    <br>
+    {% if recipe.Prep_Time_hour and recipe.Prep_Time_min %}
+    Prep_Time: {{ recipe.Prep_Time_hour }} Prep_Time: {{ recipe.Prep_Time_min }}<br>
+    {% endif %}
+    {% if Cook_Time_hour and Cook_Time_min %}
+    Cook_Time: {{ recipe.Cook_Time_hour }} Cook_Time: {{ recipe.Cook_Time_min }}<br>
+    {% endif %}
+    
+    {% if recipe.Serves %}
+    Serves: {{ recipe.Serves }}<br>
+    {% endif %}
+    
+    
     Ingredients:
+    
     <ul>
-    {% if not recipe.Ingredient_set.count %}
+        
+    {% if not recipe.ingredient_set %}
         <li>No Ingredients</li>
     {% else %}
-        {% for ingredient in recipe.Ingredient_set.all %}
+        {% with recipe.ingredient_set.all as ingredient %}
             
             <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }}</li>
             
-        {% endfor %}
+        {% endwith %}
     {% endif %}
     </ul>
     
-    Method:{{ recipe.Method | safe }}<br>
-    Notes:{{ recipe.Notes }}<br>
-    Image:{{ recipe.Image }}<br>
+    <br>
+    Method: {{ recipe.Method | safe }}<br>
+    <br>
+    Notes: {{ recipe.Notes | safe }}<br>
+    
+    {% if recipe.Image %}
+    <br>
+    Image: {{ recipe.Image }}<br>
+    {% endif %}
+
+    
 
     
 

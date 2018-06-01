@@ -74,13 +74,13 @@ def search(request):
 
 def addRecipe(request,category=-1):
     if request.method == "POST":
-        recipe = RecipeForm(request.POST) # A form bound to the POST data
+        recipe = RecipeForm(request.POST,form_ingredients=False) # A form bound to the POST data
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
         recipe = False
-        recipe = RecipeForm()
+        recipe = RecipeForm(form_ingredients=False)
         if category != -1:
             #recipe = False
             #RecipeFormSet = formset_factory(RecipeForm, extra=2)
@@ -88,7 +88,7 @@ def addRecipe(request,category=-1):
             #recipe = recipe.form
             recipe_init = Recipe()
             recipe_init.Category = Category.objects.get(pk=category)
-            recipe = RecipeForm(instance=recipe_init)
+            recipe = RecipeForm(instance=recipe_init,ingredients=False)
         #recipe.Category = category
     context = {'request':request,'form':recipe,'category':category,'title':getTitle("Add New")}
     return render(request, 'recipes/add_edit_recipe.html',context)
@@ -96,14 +96,17 @@ def addRecipe(request,category=-1):
 def editRecipe(request, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
     title=getTitle("Edit '" + recipe.Title +"'")
+    #get ingredients:
+    ingredients = get_ingredients(request,recipe)
     if request.method == "POST":
-        recipe = RecipeForm(request.POST,instance=recipe) # A form bound to the POST data
+        recipe = RecipeForm(request.POST,instance=recipe, form_ingredients=ingredients) # A form bound to the POST data
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
+            #
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
-        recipe = RecipeForm(instance=recipe)
-    context = {'recipe': recipe,'form':recipe,'title':title}
+        recipe = RecipeForm(instance=recipe,form_ingredients=ingredients)
+    context = {'recipe': recipe,'form':recipe,'title':title,'form_ingredients_test':ingredients}
     return render(request, 'recipes/add_edit_recipe.html', context )
 
 
@@ -123,7 +126,13 @@ def get_import_example(request):
     
 def export_csv(request):
     pass
-
+    
+def get_ingredients(request,recipe):
+    #recipe = get_object_or_404(Recipe, pk=recipe)
+    
+    ingredients=recipe.ingredient_set.values()
+    return ingredients
+    
 def test(request, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
 

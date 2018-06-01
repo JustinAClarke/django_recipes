@@ -58,8 +58,9 @@
             </tr>
         </table>
     </form>
-
+    {% if recipes %}
     {% include "recipes/recipes_list.html" %}    
+    {% endif %}
 
 
 {% endblock %}

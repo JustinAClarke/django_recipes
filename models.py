@@ -50,8 +50,8 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     Title = models.CharField(max_length=250)
     Unit = models.CharField(max_length=250)
-    Recipe = models.ForeignKey(Recipe,null=True)
+    Recipe = models.ForeignKey(Recipe)
     Quantity = models.FloatField()
     
     def __str__(self):
-        return self.Title
+        return "{quantity} {unit} {title}".format(quantity=self.Quantity,unit=self.Unit,title=self.Title)
