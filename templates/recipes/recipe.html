@@ -32,8 +32,9 @@
     <br>
     Method:<br>{{ recipe.Method | safe }}<br>
     <br>
+    {% if recipe.Notes %}
     Notes:<br>{{ recipe.Notes | safe }}<br>
-    
+    {% endif %}
     {% if recipe.Image %}
     <br>
     Image: {{ recipe.Image }}<br>

@@ -66,7 +66,7 @@ def search(request):
         if(request.GET.get('notes',default=None)):
             recipes = recipes.union(Recipe.objects.filter(Notes__icontains=request.GET['q']),recipes)
         if(request.GET.get('ingredients',default=None)):
-            recipes = recipes.union(Recipe.objects.filter(Ingredient__Title__icontains=request.GET['q']),recipes)
+            recipes = recipes.union(Recipe.objects.filter(Ingredients__icontains=request.GET['q']),recipes)
             
     context = {'search':request.GET,'recipes':recipes,'title':getTitle("Search")}
     return render(request, 'recipes/search.html', context)
