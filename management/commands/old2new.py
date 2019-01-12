@@ -65,8 +65,10 @@ class Command(BaseCommand):
             recipe.id = notice['id']
             recipe.Title = notice['Title']
             recipe.Category = cat_obj
+            recipe.Ingredients = notice['Requirements']
             recipe.Method = notice['Content']
-            recipe.Notes = "{}<br>\n{}".format(notice['Requirements'],notice['Notes'])
+#            recipe.Notes = "{}<br>\n{}".format(notice['Requirements'],notice['Notes'])
+            recipe.Notes = notice['Notes']
             recipe.save()
         #recipe = RecipeForm(request.POST,form_ingredients=False) # A form bound to the POST data
         #if recipe.is_valid(): # All validation rules pass

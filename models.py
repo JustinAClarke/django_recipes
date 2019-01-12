@@ -28,12 +28,13 @@ class Category(models.Model):
 
 class Recipe(models.Model):
     Title = models.CharField(max_length=250)
-    Category = models.ForeignKey(Category)
+    Category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     Prep_Time_hour = models.FloatField(default=0)
     Prep_Time_min = models.FloatField(default=0)
     Cook_Time_hour = models.FloatField(default=0)
     Cook_Time_min = models.FloatField(default=0)
     Serves = models.FloatField(default=0)
+    Ingredients = models.TextField(null=True)
     #Ingredients = models.ManyToManyField(Ingredient)
     Method = models.TextField()
     Notes = models.TextField(null=True)
@@ -50,7 +51,7 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     Title = models.CharField(max_length=250)
     Unit = models.CharField(max_length=250)
-    Recipe = models.ForeignKey(Recipe)
+#    Recipe = models.ForeignKey(Recipe)
     Quantity = models.FloatField()
     
     def __str__(self):

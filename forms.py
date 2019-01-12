@@ -41,17 +41,17 @@ class RecipeForm(ModelForm):
         
     #ingredients:
     #(id,title,quantity,unit)
-    def __init__(self, *args, **kwargs):
-        extra = kwargs.pop('form_ingredients')
-        super(RecipeForm, self).__init__(*args, **kwargs)
-        self.fields['ingredient_count'] = 0
-        if extra != 0:
-            for ingredient in extra:
-                self.fields['ingredient_title_{id}'.format(id=ingredient['id'])] = CharField(label="Title",initial=ingredient['Title'])
-                #self.fields['ingredient_title_{id}'] = CharField(label="Title",initial=ingredient['id'])
-                self.fields['ingredient_quantity_{id}'.format(id=ingredient['id'])] = CharField(label="Quantity",initial=ingredient['Quantity'])
-                self.fields['ingredient_unit_{id}'.format(id=ingredient['id'])] = CharField(label="Unit",initial=ingredient['Unit'])
-                self.fields['ingredient_count'] += 1
+#    def __init__(self, *args, **kwargs):
+#        extra = kwargs.pop('form_ingredients')
+#        super(RecipeForm, self).__init__(*args, **kwargs)
+#        self.fields['ingredient_count'] = 0
+#        if extra != 0:
+#            for ingredient in extra:                
+#	self.fields['ingredient_title_{id}'.format(id=ingredient['id'])] = CharField(label="Title",initial=ingredient['Title'])
+#               #self.fields['ingredient_title_{id}'] = CharField(label="Title",initial=ingredient['id'])
+#                self.fields['ingredient_quantity_{id}'.format(id=ingredient['id'])] = CharField(label="Quantity",initial=ingredient['Quantity'])
+#                self.fields['ingredient_unit_{id}'.format(id=ingredient['id'])] = CharField(label="Unit",initial=ingredient['Unit'])
+#                self.fields['ingredient_count'] += 1
             
 
 

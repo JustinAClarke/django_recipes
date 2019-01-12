@@ -77,21 +77,15 @@
     </div>
     {% endwith %}
     
-    {# end ing#}
-    <ul>
-    {% if not recipe.ingredient_count %}
-        <li>No Ingredients - <button id="addTest" class="ingredient_change" data-action="add">Add</button></li>
-        
-    {% else %}
-        {% for run in recipe.ingredient_count %}
-        {#% for ingredient in recipe.ingredient_unit_ %#}
-            {{ recipe.ingredient_unit_ }}
-            <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }} - <button class="ingredient_change" data-action="edit" data-id="{{ ingredient.id }}">Edit</button> <button class="ingredient_change" data-action="delete" data-id="{{ ingredient.id }}">X</button></li>
-            
-        {% endfor %}
-    {% endif %}
-    </ul>
-    {# end ing#}
+    {% with form.Ingredients as field %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+    {% endwith %}
     
     {% with form.Method as field %}
     <div class="fieldWrapper">

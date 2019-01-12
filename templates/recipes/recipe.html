@@ -22,24 +22,17 @@
     
     
     Ingredients:
-    
-    <ul>
-        
-    {% if not recipe.ingredient_set %}
-        <li>No Ingredients</li>
-    {% else %}
-        {% with recipe.ingredient_set.all as ingredient %}
-            
-            <li>{{ ingredient.Title }} {{ ingredient.Quantity }} {{ ingredient.Unit }}</li>
-            
-        {% endwith %}
-    {% endif %}
-    </ul>
-    
     <br>
-    Method: {{ recipe.Method | safe }}<br>
+    {% autoescape off %}
+
+    {{ recipe.Ingredients }}
+    {% endautoescape %}
+
     <br>
-    Notes: {{ recipe.Notes | safe }}<br>
+    <br>
+    Method:<br>{{ recipe.Method | safe }}<br>
+    <br>
+    Notes:<br>{{ recipe.Notes | safe }}<br>
     
     {% if recipe.Image %}
     <br>
