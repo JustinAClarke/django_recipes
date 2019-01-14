@@ -1,23 +1,25 @@
-<!--
-<ul>
-    {% for recipe in recipes %}
-        {% if not recipe.Deleted %}
-            <li><a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a></li>
-            {% endif %}
-    {% empty %}
-        <li>No Recipes, Try adding one <a href="{% url 'recipes:addRecipe' category.id %}">here</a></li>
-    {% endfor %}
-</ul>
+-<!--
+-<ul>
+-    {% for recipe in recipes %}
+-        {% if not recipe.Deleted %}
+-            <li><a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a></li>
+-            {% endif %}
+-    {% empty %}
+-        <li>No Recipes, Try adding one <a href="{% url 'recipes:addRecipe' category.id %}">here</a></li>
+-    {% endfor %}
+-</ul>
 -->
 <div class="wid100">
+<ul>
     {% for recipe in recipes %}
         <div class="wid30">
         {% if not recipe.Deleted %}
-            <a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a>
+            <li><a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a></li>
             {% endif %}
         </div>
     {% empty %}
         No Recipes, Try adding one <a href="{% url 'recipes:addRecipe' category.id %}">here</a>
     {% endfor %}
+</ul>
 </div>
 <div class="clear"></div>
