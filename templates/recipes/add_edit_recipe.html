@@ -3,6 +3,9 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.js"></script>
+
 <form action="" method="post">
     {% csrf_token %}
     
@@ -168,61 +171,24 @@
     }
     
     
-    function ingredient_change(){
-        console.log('run');
-        //event.preventDefault();
-        //this_obj.preventDefault();
-        var t=this;
-        var win=false;
-        console.log(t);
-        console.log(t.getAttribute('data-action'));
-        switch(t.getAttribute('data-action')){
-            case 'add':
-                win=window.open('{% url "recipes:ingredient_add" %}','','scrollbars=no,menubar=no,location=no')
-                break;
-            case 'edit':
-                win=window.open('{% url "recipes:ingredients" %}'+t.attributes['data-id'].value+'/edit/','','scrollbars=no,menubar=no,location=no')
-                break;
-            case 'delete':
-                if (window.confirm("Are you sure?")) {
-                    win=window.open('{% url "recipes:ingredients" %}','','scrollbars=no,menubar=no,location=no')
-                }
-                
-                break;
-            default:
-        }
-    
-        var form_sub = "";
-        var form = win.document.forms.item(0);
-        form.addEventListener("submit", function(event){
-            event.preventDefault();
-            var formLen = form.elements.length;
-            for(var i=0; i<formLen; i++){
-                form_sub += form[i].name +'='+form[i].value+'&';
-            }
-            
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if( this.readyState !=4)
-                    return 0;
-                var resp = this.response;
-                console.log(resp);
-                var new_ing_resp=JSON.parse(resp);
-                console.log(new_ing_resp);
-            }
-            
-            xhttp.open("POST", "{% url 'recipes:add_ing' %}", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            var url = form_sub+"csrfmiddlewaretoken={{ csrf_token }}";
-            xhttp.send(url);
-        }, true);
-        return false;
-    }
-    
-    var ingredient_change_butons = document.getElementsByClassName("ingredient_change");
-    for(var i=0; i<ingredient_change_butons.length; i++){
-        ingredient_change_butons[i].onclick=ingredient_change();
-    }
+    //id_Ingredients
+    //id_Method
+    //id_Notes
+    var edit_Ing = new Jodit('#id_Ingredients', {
+  "defaultMode": "1",
+  "disablePlugins": "iframe",
+  "buttons": "|,bold,underline,italic,|,|,ul,ol,|,,|,table,link,|,undo,redo,cut,hr,eraser,copyformat,,symbol,selectall,about"
+}),
+    edit_Meth = new Jodit('#id_Method', {
+  "defaultMode": "1",
+  "disablePlugins": "iframe",
+  "buttons": "|,bold,underline,italic,|,|,ul,ol,|,,|,table,link,|,undo,redo,cut,hr,eraser,copyformat,,symbol,selectall,about"
+}),
+    edit_Note = new Jodit('#id_Notes', {
+  "defaultMode": "1",
+  "disablePlugins": "iframe",
+  "buttons": "|,bold,underline,italic,|,|,ul,ol,|,,|,table,link,|,undo,redo,cut,hr,eraser,copyformat,,symbol,selectall,about"
+});
 
     
 </script>
