@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <!--ul>{#
+    <ul>
     {% for category in categories %}
         <li><a href="{% url 'recipes:category' category.id %}">{{ category.Title }}</a></li>
 
@@ -11,6 +11,5 @@
         {% endwith %}
         
     {% endfor %}
-    #}
-    </ul-->
+    </ul>
 {% endblock %}
