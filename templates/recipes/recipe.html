@@ -2,43 +2,57 @@
 
 
 {% block content %}
-    <a href="{% url 'recipes:editRecipe' recipe.id %}">Edit Recipe</a><br>
+    
     <br>
     
-    Title: {{recipe.Title}}<br>
-<br>
+    <h2 id="recipeTitle">{{recipe.Title}}</h2>
     Category: <a href="{% url 'recipes:category' recipe.Category_id %}">{{ recipe.Category }}</a><br>
-    <br>
-    {% if recipe.Prep_Time_hour and recipe.Prep_Time_min %}
-    Prep_Time: {{ recipe.Prep_Time_hour }} Prep_Time: {{ recipe.Prep_Time_min }}<br>
-    {% endif %}
-    {% if Cook_Time_hour and Cook_Time_min %}
-    Cook_Time: {{ recipe.Cook_Time_hour }} Cook_Time: {{ recipe.Cook_Time_min }}<br>
-    {% endif %}
     
-    {% if recipe.Serves %}
-    Serves: {{ recipe.Serves }}<br>
-    {% endif %}
+    <a href="{% url 'recipes:editRecipe' recipe.id %}">Edit Recipe</a>
     
+    <div id="topInfo">
+        <div id="details">
+            {% if recipe.Prep_Time_hour and recipe.Prep_Time_min %}
+            Prep_Time: {{ recipe.Prep_Time_hour }} Prep_Time: {{ recipe.Prep_Time_min }}<br>
+            {% endif %}
+            {% if Cook_Time_hour and Cook_Time_min %}
+            Cook_Time: {{ recipe.Cook_Time_hour }} Cook_Time: {{ recipe.Cook_Time_min }}<br>
+            {% endif %}
+            
+            {% if recipe.Serves %}
+            Serves: {{ recipe.Serves }}<br>
+            {% endif %}
+            
+            
+            <div id="ingredients">
+                <h3>Ingredients:</h3>
+                
+                {% autoescape off %}
+                {{ recipe.Ingredients }}
+                {% endautoescape %}
+            </div>
+        
+        </div>
+        <div id="image">
+            {% if recipe.Image %}
+            {{ recipe.Image }}
+            {% endif %}
+        </div>
+    </div>
     
-    Ingredients:
-    <br>
-    {% autoescape off %}
-
-    {{ recipe.Ingredients }}
-    {% endautoescape %}
-
-    <br>
-    <br>
-    Method:<br>{{ recipe.Method | safe }}<br>
-    <br>
+    <div id="method">
+        <h3>Method:</h3>
+        {{ recipe.Method | safe }}
+    </div>
+    
     {% if recipe.Notes %}
-    Notes:<br>{{ recipe.Notes | safe }}<br>
+    <div id="notes">
+        <h4>Notes:</h4>
+        {{ recipe.Notes | safe }}
+    </div>
     {% endif %}
-    {% if recipe.Image %}
-    <br>
-    Image: {{ recipe.Image }}<br>
-    {% endif %}
+    
+    
 
     
 
