@@ -1,4 +1,4 @@
--<!--
+<!--
 -<ul>
 -    {% for recipe in recipes %}
 -        {% if not recipe.Deleted %}
@@ -10,11 +10,48 @@
 -</ul>
 -->
 <div class="wid100">
-<ul>
+<ul class="wid100">
     {% for recipe in recipes %}
-        <div class="wid30">
+        <div class="wid30 recipe_div">
         {% if not recipe.Deleted %}
-            <li><a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a></li>
+            <li>
+            {% if recipe.Image %}
+                <a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">
+                    <img id="thumbnail" src="{% url 'recipes:thumbnail' recipe.id %}" alt="Photo of {{ recipe.Title }} Click to view recipe">
+                <br>
+                <div class="wid100">
+                    <div class="wid50">{{ recipe.Title }}</div>
+                    <div class="wid50">{% if recipe.Prep_Time_hour or recipe.Prep_Time_min %}
+                Prep: {{ recipe.Prep_Time_hour }}h {{ recipe.Prep_Time_min }}m<br>
+                {% endif %}
+                {% if recipe.Cook_Time_hour or recipe.Cook_Time_min %}
+                Cook: {{ recipe.Cook_Time_hour }}h {{ recipe.Cook_Time_min }}m<br>
+                {% endif %}
+                
+                {% if recipe.Serves %}
+                Serves: {{ recipe.Serves }}<br>
+                {% endif %}</div>
+                </div>
+                </a>
+            
+            {% else %}
+                <a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">{{ recipe.Title }}</a>
+                <br>
+
+                {% if recipe.Prep_Time_hour or recipe.Prep_Time_min %}
+                Prep: {{ recipe.Prep_Time_hour }}h {{ recipe.Prep_Time_min }}m<br>
+                {% endif %}
+                {% if recipe.Cook_Time_hour or recipe.Cook_Time_min %}
+                Cook: {{ recipe.Cook_Time_hour }}h {{ recipe.Cook_Time_min }}m<br>
+                {% endif %}
+                
+                {% if recipe.Serves %}
+                Serves: {{ recipe.Serves }}<br>
+                {% endif %}
+
+            
+            {% endif %}
+            </li>
             {% endif %}
         </div>
     {% empty %}

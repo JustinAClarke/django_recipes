@@ -15,13 +15,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
     """
-from django.forms import ModelForm
-from django.forms import CharField
+from django.forms import ModelForm, Textarea
+from django.forms import CharField, ImageField
 from .models import Category, Recipe, Ingredient
 
 
 # Create the form class.
 class RecipeForm(ModelForm):
+    Image = ImageField(label="Image", required=False)
+    Notes = CharField(label="Notes", widget=Textarea, required=False)
     class Meta:
         model = Recipe
         fields = '__all__'

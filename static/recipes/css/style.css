@@ -100,4 +100,6 @@ html,body{
     margin-left: auto;
     margin-right: 0;
 }
-
+.recipe_div{
+    min-height: 70px;
+}

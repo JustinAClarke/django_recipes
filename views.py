@@ -76,6 +76,24 @@ def search(request):
             serves = request.GET['serves']
             if(serves != ""):
                 recipes = recipes.intersection(Recipe.objects.filter(Serves__exact=request.GET['serves']))
+        
+        if(request.GET.get('p30',default=None)):
+            recipes = recipes.intersection(Recipe.objects.filter(Prep_Time_min__lte=30))
+            recipes = recipes.intersection(Recipe.objects.filter(Prep_Time_min__gt=0))
+            
+        if(request.GET.get('c30',default=None)):
+            recipes = recipes.intersection(Recipe.objects.filter(Cook_Time_min__lte=30))
+            recipes = recipes.intersection(Recipe.objects.filter(Cook_Time_min__gt=0))
+            
+        if(request.GET.get('p60',default=None)):
+            recipes = recipes.intersection(Recipe.objects.filter(Prep_Time_min__lte=60))
+            recipes = recipes.intersection(Recipe.objects.filter(Prep_Time_hour__lte=1))
+            
+        if(request.GET.get('sadfghdfsagk',default=None)):
+            recipes = recipes.intersection(Recipe.objects.filter(Cook_Time_min__lte=60))
+            recipes = recipes.intersection(Recipe.objects.filter(Cook_Time_hour__lte=1))
+            
+        
     context = {'search':request.GET,'recipes':recipes,'title':getTitle("Search")}
     return render(request, 'recipes/search.html', context)
 
