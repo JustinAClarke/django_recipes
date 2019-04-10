@@ -2,5 +2,7 @@
 
 
 {% block content %}
-{% include "recipes/recipe_content.html" %}    
+<a class="right" href="{% url 'recipes:sidebyside1' recipe.id %}">View Side by Side</a>
+{% include "recipes/recipe_content.html" %}
+
 {% endblock %}

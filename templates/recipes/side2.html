@@ -1,18 +1,92 @@
 {% extends "recipes/base.html" %}
 {% block content %}
 
+{% load get_recipies %}
+<link href="https://unpkg.com/mobius1-selectr@latest/dist/selectr.min.css" rel="stylesheet" type="text/css">
+<script src="https://unpkg.com/mobius1-selectr@latest/dist/selectr.min.js" type="text/javascript"></script>
+
 <div class="wid100">
+    <div class="wid50">
+        <select id="select1" name="side1" data-select={{ recipe1.id }}>
+            {% get_recipies %}
+        </select>
+        <div id="select1btn" class="pure-button pure-button-active" >View Recipe</div>
+    </div>
+    <div class="wid50">
+        <select id="select2" name="side2" data-select={{ recipe2.id }}>
+            {% get_recipies %}
+        </select>
+        <div id="select2btn" class="pure-button pure-button-active" >View Recipe</div>
+    
+        <div class="">
+            <select id="select3" name="side3">
+                <option selected="selected" disabled>Please Select for a 3-way view</option>
+                {% get_recipies %}
+            </select>
+            <div id="select3btn" class="pure-button pure-button-active" >View 3rd Recipe</div>
+        </div>
+    </div>
+</div>
+
+<div class="wid100">
+
     <div class="wid50 side2side">
+    
     {% with recipe1 as recipe %}
         {% include "recipes/recipe_content.html" %}    
     {% endwith %}
     </div>
     <div class="wid50 side2side">
+    
     {% with recipe2 as recipe %}
         {% include "recipes/recipe_content.html" %}    
     {% endwith %}
     </div>
 
 </div>
+
+<script>
+    var sel1 = document.getElementById('select1').dataset.select,
+    sel2 = document.getElementById('select2').dataset.select;
+    
+    
+    var select1 = new Selectr('#select1', {
+        searchable: true,
+        width: '80%',
+        defaultSelected: true,
+        
+        
+    });
+    var select2 = new Selectr('#select2', {
+        searchable: true,
+        width: '80%',
+        
+    });
+    var select3 =  new Selectr('#select3', {
+        searchable: true,
+        width: '80%',
+        defaultSelected: true,
+        
+    });
+    
+    select1.setValue(sel1);
+    select2.setValue(sel2);
+var btn1=document.getElementById('select1btn'),
+    btn2=document.getElementById('select2btn'),
+    btn3=document.getElementById('select3btn'),
+    new_side2side = function(){
+    
+    var location= "{% url 'recipes:sidebyside1' recipe1.id %}"+document.getElementById('select2').value;
+    window.location=location;
+};
+
+btn1.onclick=new_side2side;
+btn2.onclick=new_side2side;
+btn3.onclick=function(){
+    
+    var location= "{% url 'recipes:sidebyside2' recipe1.id recipe2.id %}"+document.getElementById('select3').value;
+    window.location=location;
+};
+</script>
 
 {% endblock %}

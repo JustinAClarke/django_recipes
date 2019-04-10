@@ -1,23 +1,47 @@
 {% extends "recipes/base.html" %}
 {% block content %}
 
+<link href="https://unpkg.com/mobius1-selectr@latest/dist/selectr.min.css" rel="stylesheet" type="text/css">
+<script src="https://unpkg.com/mobius1-selectr@latest/dist/selectr.min.js" type="text/javascript"></script>
+
 <div class="wid100">
     <div class="wid50 side2side">
     {% with recipe1 as recipe %}
         {% include "recipes/recipe_content.html" %}    
     {% endwith %}
     </div>
-    <div class="wid50 side2side">
-    <select name="side2">
-        {# for all recipes, show in select box, select2?
-            then allow submit to change to new page, with specified recipes.
-            
-            then place this above both search boxes, with a second above the second recipe, for adding a new recipe (3)
-            #}
+    <div id="nonRecipe" class="wid50 side2side">
+    
+    {% load get_recipies %}
+
+    <select id="select2" name="side2">
+        <option selected="selected" disabled>Please Select</option>
+        {% get_recipies %}
     </select>
-    <input type="submit">
+    <div id="select2btn" class="pure-button pure-button-active" >View Recipe</div>
     </div>
 
 </div>
 
+<script>
+    new Selectr('#select2', {
+	searchable: true,
+    width: '80%',
+    defaultSelected: true,
+	
+});
+
+var btn2=document.getElementById('select2btn');
+btn2.onclick=function(){
+    
+    var location= "{% url 'recipes:sidebyside1' recipe1.id %}"+document.getElementById('select2').value;
+    window.location=location;
+};
+</script>
+
+<style>
+    #nonRecipe{
+        height: initial;
+    }
+</style>
 {% endblock %}

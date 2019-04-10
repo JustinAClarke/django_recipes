@@ -1,0 +1,6 @@
+
+{% for recipe in recipes %}
+    <option value="{{ recipe.id }}">{{ recipe.id }} - { {{ recipe.Category }} } - {{ recipe }}</option>
+
+{% endfor %}
+
