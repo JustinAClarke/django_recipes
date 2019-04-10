@@ -103,3 +103,9 @@ html,body{
 .recipe_div{
     min-height: 70px;
 }
+
+.side2side{
+    height: 70%;
+    overflow-y: scroll;
+    display: initial;
+}

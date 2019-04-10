@@ -144,7 +144,38 @@ def thumbnail(request,recipe):
     #return HttpResponse(content=FileResponse(open(photo.image_file.name, 'rb')),content_type=mimetypes.guess_type(photo.image_file.name)[0])
     return HttpResponse(content=FileResponse(open(default_storage.location+'/'+recipe_obj.Image.name, 'rb')),content_type=mimetypes.guess_type(recipe_obj.Image.name)[0])
 
+def sidebyside1(request, side1):
+    recipe1 = get_object_or_404(Recipe, pk=side1)
+    
+    if( recipe1.Deleted):
+        return render(request, 'recipes/index.html', {'error_message': "Unable to find Recipe.",})
+        
+    title = "{} - Side".format(recipe1.Title)
+    context = {'recipe1': recipe1, 'recipe2': False, 'title':getTitle()}
+    return render(request, 'recipes/side1.html', context)
+    
+def sidebyside2(request, side1, side2):
+    recipe1 = get_object_or_404(Recipe, pk=side1)
+    recipe2 = get_object_or_404(Recipe, pk=side2)
+    if( recipe1.Deleted or recipe2.Deleted):
+        return render(request, 'recipes/index.html', {'error_message': "Unable to find Recipe.",})
+        
+    title = "{} - {}".format(recipe1.Title, recipe2.Title)
+    context = {'recipe1': recipe1, 'recipe2': recipe2, 'title':getTitle()}
+    return render(request, 'recipes/side2.html', context)
+    
 
+def sidebyside3(request, side1, side2, side3):
+    recipe1 = get_object_or_404(Recipe, pk=side1)
+    recipe2 = get_object_or_404(Recipe, pk=side2)
+    recipe3 = get_object_or_404(Recipe, pk=side3)
+    if( recipe1.Deleted or recipe2.Deleted or recipe3.Deleted):
+        return render(request, 'recipes/index.html', {'error_message': "Unable to find Recipe.",})
+        
+    title = "{} - {} - {}".format(recipe1.Title, recipe2.Title, recipe3.Title)
+    context = {'recipe1': recipe1, 'recipe2': recipe2, 'recipe3': recipe3, 'title':getTitle()}
+    return render(request, 'recipes/side3.html', context)
+    
 def import_csv(request):
     context = {}
     if request.method == "POST":

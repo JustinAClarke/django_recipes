@@ -43,6 +43,11 @@ urlpatterns = [
     # ex: /recipe/edit/<recipe>
     url(r'^edit/(?P<recipe>[0-9]+)/$', views.editRecipe, name='editRecipe'),
     
+    # ex: /recipe/side/<recipe>/<recipe>
+    url(r'^side/(?P<side1>[0-9]+)/(?P<side2>[0-9]+)/(?P<side3>[0-9]+)/$', views.sidebyside3, name='sidebyside3'),
+    url(r'^side/(?P<side1>[0-9]+)/(?P<side2>[0-9]+)/$', views.sidebyside2, name='sidebyside2'),
+    url(r'^side/(?P<side1>[0-9]+)/$', views.sidebyside1, name='sidebyside1'),
+    
     # ex: /recipe/import
     url(r'^import/$', views.import_csv, name='import_csv'),
     

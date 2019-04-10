@@ -1,0 +1,18 @@
+{% extends "recipes/base.html" %}
+{% block content %}
+
+<div class="wid100">
+    <div class="wid50 side2side">
+    {% with recipe1 as recipe %}
+        {% include "recipes/recipe_content.html" %}    
+    {% endwith %}
+    </div>
+    <div class="wid50 side2side">
+    {% with recipe2 as recipe %}
+        {% include "recipes/recipe_content.html" %}    
+    {% endwith %}
+    </div>
+
+</div>
+
+{% endblock %}
