@@ -10,32 +10,33 @@
     
     <a href="{% url 'recipes:editRecipe' recipe.id %}">Edit Recipe</a>
     
+    <br>
+    {% if recipe.Prep_Time_hour or recipe.Prep_Time_min %}
+    Prep_Time: {{ recipe.Prep_Time_hour }}h {{ recipe.Prep_Time_min }}m<br>
+    {% endif %}
+    {% if recipe.Cook_Time_hour or recipe.Cook_Time_min %}
+    Cook_Time: {{ recipe.Cook_Time_hour }}h {{ recipe.Cook_Time_min }}m<br>
+    {% endif %}
+    
+    {% if recipe.Serves %}
+    Serves: {{ recipe.Serves }}<br>
+    {% endif %}
+            
+<div id="details">
+    </div>
     <div id="topInfo">
-        <div id="details">
-            {% if recipe.Prep_Time_hour and recipe.Prep_Time_min %}
-            Prep_Time: {{ recipe.Prep_Time_hour }} Prep_Time: {{ recipe.Prep_Time_min }}<br>
-            {% endif %}
-            {% if Cook_Time_hour and Cook_Time_min %}
-            Cook_Time: {{ recipe.Cook_Time_hour }} Cook_Time: {{ recipe.Cook_Time_min }}<br>
-            {% endif %}
+
+        <div id="ingredients"  class="wid50">
+            <h3>Ingredients:</h3>
             
-            {% if recipe.Serves %}
-            Serves: {{ recipe.Serves }}<br>
-            {% endif %}
-            
-            
-            <div id="ingredients">
-                <h3>Ingredients:</h3>
-                
-                {% autoescape off %}
-                {{ recipe.Ingredients }}
-                {% endautoescape %}
-            </div>
-        
+            {% autoescape off %}
+            {{ recipe.Ingredients }}
+            {% endautoescape %}
         </div>
-        <div id="image">
+        
+        <div id="image" class="wid50">
             {% if recipe.Image %}
-            {{ recipe.Image }}
+            <img id="thumbnail" src="{% url 'recipes:thumbnail' recipe.id %}" alt="Photo of Food or recipe creation">
             {% endif %}
         </div>
     </div>

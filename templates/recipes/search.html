@@ -5,12 +5,21 @@
     <form action="{% url 'recipes:search' %}" method="get">
         <table>
             <tr>
-                <td>
+                <td colspan = "2">
+                    Contains: 
                     {% if search.q %}
 
                         <input name="q" type="text" value="{{ search.q }}"></input>
                     {% else %}
                         <input name="q" type="text" value=""></input>
+                    {% endif %}
+                </td>
+                <td colspan = "2">
+                    &nbsp;Serves:
+                    {% if search.serves  %}
+                        <input name="serves" type="text" value="{{ search.serves }}"></input>
+                    {% else %}
+                        <input name="serves" type="text" value="Any"></input>
                     {% endif %}
                 </td>
             </tr>
@@ -34,6 +43,22 @@
                         <input type="checkbox" name="method">Method</input>
                     {% endif %}
                 </td>
+                
+                <td>
+                    {% if search.p30  %}
+                        <input type="checkbox" name="p30" checked="true">Prep <30min</input>
+                    {% else %}
+                        <input type="checkbox" name="p30">Prep <30min</input>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if search.p60  %}
+                        <input type="checkbox" name="p60" checked="true">Prep <60min</input>
+                    {% else %}
+                    <input type="checkbox" name="p60">Prep <60min</input>
+                    {% endif %}
+                </td>
+                
             </tr>
             <tr>
                 <td>
@@ -48,6 +73,21 @@
                         <input type="checkbox" name="notes" checked="true">Notes</input>
                     {% else %}
                     <input type="checkbox" name="notes">Notes</input>
+                    {% endif %}
+                </td>
+                
+                <td>
+                    {% if search.c30  %}
+                        <input type="checkbox" name="c30" checked="true">Cook <30min</input>
+                    {% else %}
+                        <input type="checkbox" name="c30">Cook <30min</input>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if search.c60  %}
+                        <input type="checkbox" name="c60" checked="true">Cook <60min</input>
+                    {% else %}
+                    <input type="checkbox" name="c60">Cook <60min</input>
                     {% endif %}
                 </td>
             </tr>

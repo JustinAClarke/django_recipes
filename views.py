@@ -18,7 +18,9 @@
 # Create your views here.
 
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
+from django.http import HttpResponseRedirect, FileResponse, HttpResponse, Http404, JsonResponse
+
+from django.core.files.storage import default_storage
 
 from django.urls import reverse
 from django.forms import formset_factory
@@ -26,6 +28,9 @@ from django.forms import formset_factory
 from django.conf import settings
 
 from django.template import loader
+
+import mimetypes
+
 
 from .models import Category, Recipe, Ingredient
 from .forms import *
@@ -67,14 +72,19 @@ def search(request):
             recipes = recipes.union(Recipe.objects.filter(Notes__icontains=request.GET['q']),recipes)
         if(request.GET.get('ingredients',default=None)):
             recipes = recipes.union(Recipe.objects.filter(Ingredients__icontains=request.GET['q']),recipes)
-            
+        if(request.GET.get('serves',default="Any") != "Any"):
+            serves = request.GET['serves']
+            if(serves != ""):
+                recipes = recipes.intersection(Recipe.objects.filter(Serves__exact=request.GET['serves']))
     context = {'search':request.GET,'recipes':recipes,'title':getTitle("Search")}
     return render(request, 'recipes/search.html', context)
 
 
 def addRecipe(request,category=-1):
     if request.method == "POST":
-        recipe = RecipeForm(request.POST) # A form bound to the POST data
+        recipe = RecipeForm(request.POST, request.FILES) # A form bound to the POST data
+        
+        
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
@@ -99,7 +109,7 @@ def editRecipe(request, recipe):
     #get ingredients:
 #    ingredients = get_ingredients(request,recipe)
     if request.method == "POST":
-        recipe = RecipeForm(request.POST,instance=recipe) # A form bound to the POST data
+        recipe = RecipeForm(request.POST, request.FILES, instance=recipe) # A form bound to the POST data
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
             #
@@ -108,6 +118,13 @@ def editRecipe(request, recipe):
         recipe = RecipeForm(instance=recipe)
     context = {'recipe': recipe,'form':recipe,'title':title}
     return render(request, 'recipes/add_edit_recipe.html', context )
+
+def thumbnail(request,recipe):
+    recipe_obj = get_object_or_404(Recipe, pk=recipe)
+    #photo_file = open(photo.image_file)
+    #return FileResponse(photo.image_file.open())
+    #return HttpResponse(content=FileResponse(open(photo.image_file.name, 'rb')),content_type=mimetypes.guess_type(photo.image_file.name)[0])
+    return HttpResponse(content=FileResponse(open(default_storage.location+'/'+recipe_obj.Image.name, 'rb')),content_type=mimetypes.guess_type(recipe_obj.Image.name)[0])
 
 
 def import_csv(request):
@@ -224,3 +241,13 @@ def add_cat(request):
         data={'cat_id':new_cat.id, 
         'cat_title':new_cat.Title}
         return JsonResponse(data)
+
+def strResp(text):
+    from django.http import HttpResponse
+    return HttpResponse(text)
+
+
+
+def jsonResp(obj):
+    from django.http import JsonResponse
+    return JsonResponse(obj, safe=False)

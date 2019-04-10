@@ -75,7 +75,9 @@ html,body{
     padding: 1%;
     float: left;
 }
-
+.wid50{
+    width: 50%;
+}
 .wid100{
     width: 100%;
     margin: 1%;
@@ -87,3 +89,15 @@ html,body{
 .clear{
     width: 100%;
 }
+
+#topInfo{
+    display: flex;
+    justify-content: space-around;
+}
+#thumbnail{
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: 0;
+}
+

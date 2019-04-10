@@ -55,6 +55,8 @@ urlpatterns = [
 
     url(r'^category/add$', views.category_add, name='category_add'),
     
+    url(r'^thumbnail/(?P<recipe>[0-9]+)/$', views.thumbnail, name='thumbnail'),
+    
     url(r'^ingredient/add$', views.ingredient_add, name='ingredient_add'),
     url(r'^ingredient/$', views.ingredients, name='ingredients'),
     url(r'^ingredient/(?P<ing_id>[0-9]+)/(?P<action>[a-z]+w)$', views.ingredients, name='ingredients'),
