@@ -31,6 +31,7 @@ from django.template import loader
 
 import mimetypes
 
+from .resize import createPreview, createThumbnail, createThumbnailSquare
 
 from .models import Category, Recipe, Ingredient
 from .forms import *
@@ -126,6 +127,9 @@ def addRecipe(request,category=-1):
         
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
+            recipe = Recipe.objects.get(pk=new_recipe.id)
+            recipe.Image = createPreview(default_storage.location+'/'+recipe.Image.name,default_storage.location+'/'+'photo_files/thumbnail/')
+            recipe.save()
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
         recipe = False
@@ -151,6 +155,9 @@ def editRecipe(request, recipe):
         recipe = RecipeForm(request.POST, request.FILES, instance=recipe) # A form bound to the POST data
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
+            recipe = Recipe.objects.get(pk=new_recipe.id)
+            recipe.Image = createPreview(default_storage.location+'/'+recipe.Image.name,default_storage.location+'/'+'photo_files/thumbnails/')
+            recipe.save()
             #
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
