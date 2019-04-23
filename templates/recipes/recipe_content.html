@@ -5,10 +5,10 @@
     
     <br>
     {% if recipe.Prep_Time_hour or recipe.Prep_Time_min %}
-    Prep_Time: {{ recipe.Prep_Time_hour }}h {{ recipe.Prep_Time_min }}m<br>
+    Prep Time: {% if recipe.Prep_Time_hour %} {{ recipe.Prep_Time_hour }}h{% endif %} {% if recipe.Prep_Time_min %}{{ recipe.Prep_Time_min }}m{% endif %}<br>
     {% endif %}
     {% if recipe.Cook_Time_hour or recipe.Cook_Time_min %}
-    Cook_Time: {{ recipe.Cook_Time_hour }}h {{ recipe.Cook_Time_min }}m<br>
+    Cook Time: {% if recipe.Cook_Time_hour %} {{ recipe.Cook_Time_hour }}{% endif %} {% if recipe.Cook_Time_min %}{{ recipe.Cook_Time_min }}m{% endif %}<br>
     {% endif %}
     
     {% if recipe.Serves %}

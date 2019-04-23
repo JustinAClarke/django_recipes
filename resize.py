@@ -40,8 +40,8 @@ def getRotate(orientation):
         return 90
     return 180
 
-def createPreview(inFile,outDir,size=[1280,1280]):
-    pass
+def createPreview(inFile,outDir,size=[1280,1280], replace=False):
+    
     file, ext = os.path.splitext(inFile)
     title= file.split('/')[-1]
     im = Image.open(inFile)
@@ -112,3 +112,6 @@ def createThumbnailSquare(inFile,outDir,size=[430,430]):
     imThumbnail.close()
     
     return outDir+"thumbnail-"+title+".jpg"
+
+def rename(old, new, replace=True):
+    pass

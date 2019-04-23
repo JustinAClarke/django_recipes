@@ -22,10 +22,10 @@
                 <div class="wid100">
                     <div class="wid50">{{ recipe.Title }}</div>
                     <div class="wid50">{% if recipe.Prep_Time_hour or recipe.Prep_Time_min %}
-                Prep: {{ recipe.Prep_Time_hour }}h {{ recipe.Prep_Time_min }}m<br>
+                Prep:{% if recipe.Prep_Time_hour %} {{ recipe.Prep_Time_hour }}h{% endif %} {% if recipe.Prep_Time_min %}{{ recipe.Prep_Time_min }}m{% endif %}<br>
                 {% endif %}
                 {% if recipe.Cook_Time_hour or recipe.Cook_Time_min %}
-                Cook: {{ recipe.Cook_Time_hour }}h {{ recipe.Cook_Time_min }}m<br>
+                Cook:{% if recipe.Cook_Time_hour %} {{ recipe.Cook_Time_hour }}{% endif %} {% if recipe.Cook_Time_min %}{{ recipe.Cook_Time_min }}m{% endif %}<br>
                 {% endif %}
                 
                 {% if recipe.Serves %}

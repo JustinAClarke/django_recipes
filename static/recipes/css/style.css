@@ -113,3 +113,7 @@ html,body{
     margin-left:auto;
     margin-right:0;
 }
+
+#id_Prep_Time_hour, #id_Prep_Time_min, #id_Cook_Time_hour, #id_Cook_Time_min{
+    width: 2em;
+}
