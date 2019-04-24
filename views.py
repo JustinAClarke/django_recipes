@@ -149,6 +149,7 @@ def addRecipe(request,category=-1):
 
 def editRecipe(request, recipe):
     recipe = get_object_or_404(Recipe, pk=recipe)
+    recipe_obj = recipe
     title=getTitle("Edit '" + recipe.Title +"'")
     #get ingredients:
 #    ingredients = get_ingredients(request,recipe)
@@ -164,7 +165,7 @@ def editRecipe(request, recipe):
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
     else:
         recipe = RecipeForm(instance=recipe)
-    context = {'recipe': recipe,'form':recipe,'title':title}
+    context = {'recipe_obj': recipe_obj,'form':recipe,'title':title}
     return render(request, 'recipes/add_edit_recipe.html', context )
 
 def thumbnail(request,recipe):

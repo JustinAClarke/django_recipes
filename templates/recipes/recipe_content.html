@@ -29,7 +29,7 @@
         
         <div id="image" class="wid50">
             {% if recipe.Image %}
-            <img id="thumbnail" src="{% url 'recipes:thumbnail' recipe.id %}" alt="Photo of Food or recipe creation">
+            <img id="preview" src="{% url 'recipes:thumbnail' recipe.id %}" alt="Photo of Food or recipe creation">
             {% endif %}
         </div>
     </div>

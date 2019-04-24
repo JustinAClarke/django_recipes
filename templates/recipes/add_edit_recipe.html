@@ -118,6 +118,9 @@
         {% if field.help_text %}
         <p class="help">{{ field.help_text|safe }}</p>
         {% endif %}
+        {% if recipe_obj.Image %}
+            <img id="thumbnail" src="{% url 'recipes:thumbnail' recipe_obj.id %}" alt="Current Photo">
+            {% endif %}
     </div>
     {% endwith %}
     
