@@ -38,7 +38,7 @@ class Recipe(models.Model):
     #Ingredients = models.ManyToManyField(Ingredient)
     Method = models.TextField()
     Notes = models.TextField(null=True)
-    Image = models.ImageField(upload_to='photo_files/original',null=True)
+    Image = models.ImageField(upload_to='photo_files/uploads',null=True)
     Deleted = models.NullBooleanField()
     
     
