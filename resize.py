@@ -44,6 +44,11 @@ def createPreview(inFile,outDir,size=[1280,1280], replace=False):
     
     file, ext = os.path.splitext(inFile)
     title= file.split('/')[-1]
+    
+    out = "{directory}preview-{title}.jpg".format(directory=outDir, title=title)
+    if replace:
+        out = "{directory}preview-{title}".format(directory=outDir, title=replace)
+        
     im = Image.open(inFile)
     
     fRotate = open(inFile, 'rb')
@@ -57,14 +62,20 @@ def createPreview(inFile,outDir,size=[1280,1280], replace=False):
     imPreview = im.copy()
     imPreview=imPreview.rotate(getRotate(orientation),expand=1)
     imPreview.thumbnail(size)
-    imPreview.save(outDir+"preview-"+title+".jpg","JPEG")
+    
+    imPreview.save(out,"JPEG")
     imPreview.close()
-    return outDir+"preview-"+title+".jpg"
+    return out
 
-def createThumbnail(inFile,outDir,size=[430,430]):
+def createThumbnail(inFile,outDir,size=[430,430], replace=False):
     pass
     file, ext = os.path.splitext(inFile)
     title= file.split('/')[-1]
+    
+    out = "{directory}thumbnail-{title}.jpg".format(directory=outDir, title=title)
+    if replace:
+        out = "{directory}thumbnail-{title}".format(directory=outDir, title=replace)
+        
     im = Image.open(inFile)
     
     fRotate = open(inFile, 'rb')
@@ -78,15 +89,20 @@ def createThumbnail(inFile,outDir,size=[430,430]):
     imThumbnail = im.copy()
     imThumbnail=imThumbnail.rotate(getRotate(orientation),expand=1)
     imThumbnail.thumbnail(size)
-    imThumbnail.save(outDir+"thumbnail-"+title+".jpg","JPEG")
+    imThumbnail.save(out,"JPEG")
     imThumbnail.close()
     
-    return outDir+"thumbnail-"+title+".jpg"
+    return out
 
-def createThumbnailSquare(inFile,outDir,size=[430,430]):
+def createThumbnailSquare(inFile,outDir,size=[430,430], replace=False):
     pass
     file, ext = os.path.splitext(inFile)
     title= file.split('/')[-1]
+    
+    out = "{directory}thumbnail-{title}.jpg".format(directory=outDir, title=title)
+    if replace:
+        out = "{directory}thumbnail-{title}".format(directory=outDir, title=replace)
+        
     im = Image.open(inFile)
     
     fRotate = open(inFile, 'rb')
@@ -108,10 +124,10 @@ def createThumbnailSquare(inFile,outDir,size=[430,430]):
     
     imThumbnail.thumbnail(size)
 
-    imThumbnail.save(outDir+"thumbnail-"+title+".jpg","JPEG")
+    imThumbnail.save(out,"JPEG")
     imThumbnail.close()
     
-    return outDir+"thumbnail-"+title+".jpg"
+    return out
 
 def rename(old, new, replace=True):
     pass

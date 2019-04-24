@@ -128,7 +128,7 @@ def addRecipe(request,category=-1):
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
             recipe = Recipe.objects.get(pk=new_recipe.id)
-            image = createPreview(default_storage.location+'/'+recipe.Image.name,default_storage.location+'/'+'photo_files/thumbnails/')
+            image = createPreview(default_storage.location+'/'+recipe.Image.name,default_storage.location+'/'+'photo_files/thumbnails/', replace="{}.jpg".format(new_recipe.id))
             recipe.Image = image.replace(default_storage.location+'/','')
             recipe.save()
             return HttpResponseRedirect(reverse('recipes:single', args=(new_recipe.Category_id,new_recipe.id)))
@@ -157,7 +157,7 @@ def editRecipe(request, recipe):
         if recipe.is_valid(): # All validation rules pass
             new_recipe = recipe.save()
             recipe = Recipe.objects.get(pk=new_recipe.id)
-            image = createPreview(default_storage.location+'/'+recipe.Image.name,default_storage.location+'/'+'photo_files/thumbnails/')
+            image = createPreview(default_storage.location+'/'+recipe.Image.name,default_storage.location+'/'+'photo_files/thumbnails/', replace="{}.jpg".format(new_recipe.id))
             recipe.Image = image.replace(default_storage.location+'/','')
             recipe.save()
             #
