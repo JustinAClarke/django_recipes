@@ -1,0 +1,13 @@
+{% extends "recipes/base.html" %}
+
+
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<a href="{% url 'recipes:admin_import_template' %}">Click here for an Import Template</a><br>
+Initial Import: <input type="checkbox" name="overwrite"><br>
+<input type="file" name="import_file" accept=".csv, .zip"><br>
+<button class="button-warning pure-button">{{ action }}</button>
+
+</form>
+{% endblock %}

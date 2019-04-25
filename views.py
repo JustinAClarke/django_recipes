@@ -302,9 +302,32 @@ def admin_import_template(request):
 def admin_import(request):
     
     if request.method == "POST":
-        
-        recipes.import_export.import_template("/tmp/example.csv")
-        
+        with tempfile.TemporaryDirectory() as downloadtmp:
+            #------------------------------------------------------------------------------------------
+            #--------TEST------------------------------------------------------------------------------
+            downloadtmp='/tmp/testtmp'
+            #------------------------------------------------------------------------------------------
+            name='csv'
+            print('created temporary directory', downloadtmp)
+            for key, file in request.FILES.items():
+                
+                if(file.content_type == 'text/csv'):
+                    name='csv'
+                elif(file.content_type == 'application/zip'):
+                    name='zip'
+                else:
+                    context = {'action':'Import', 'error_message':'Wrong File Type: only files accepted (*.zip, *.csv)', 'title':getTitle()}
+                    return render(request, 'recipes/admin_import.html', context)
+                dest = open(downloadtmp+'/'+name, 'wb')
+                if file.multiple_chunks:
+                    for c in file.chunks():
+                        dest.write(c)
+                else:
+                    dest.write(file.read())
+                dest.close()
+            
+            if( name == 'zip' ):
+                pass
 
     context = {'action':'Import', 'title':getTitle()}
     return render(request, 'recipes/admin_import.html', context)
