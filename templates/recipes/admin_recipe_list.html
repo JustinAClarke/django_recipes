@@ -16,7 +16,7 @@
             <td>{{ recipe.id }}</td>
             <td>{{ recipe.Title }}</td>
             <td>{{ recipe.Category }}</td>
-            <td>{% if recipe.Deleted %}<input type="checkbox" name="{{ recipe.id }}" checked="checked">{% else %}<input type="checkbox" name="{{ recipe.id }}">{%endif %}</td>
+            <td>{% if recipe.Deleted %}<input class="check_all" type="checkbox" name="{{ recipe.id }}" checked="checked">{% else %}<input class="check_all" type="checkbox" name="{{ recipe.id }}">{%endif %}</td>
         </tr>
 {% endfor %}
     </tbody>
@@ -28,9 +28,13 @@
 var recipes_list = document.getElementsByClassName("recipes_list"),
     searchbtn = document.getElementById("searchbtn");
     change_all = document.getElementById("change_all");
+    check_all = document.getElementsByClassName("check_all");
     change_all.onchange = function(){
         for(var i=0; i<recipes_list.length; i++){
-            recipes_list[i].children[3].children[0].checked=change_all.checked;
+            if( recipes_list[i].classList.contains('hidden') == false){
+                check_all[i].checked = change_all.checked;
+            }
+            
         }
     };
     searchbtn.onclick = function(){
