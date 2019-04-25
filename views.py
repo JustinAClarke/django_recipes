@@ -246,7 +246,7 @@ def admin_delete(request):
     return render(request, 'recipes/admin_delete.html', context)
     
 def admin_export(request):
-    all_recipes = Recipe.objects.all()
+    all_recipes = Recipe.objects.filter(Deleted__exact=False)
     
     if request.method == "POST":
         recipes_list = []
