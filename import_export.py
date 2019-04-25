@@ -48,18 +48,15 @@ import csv
 
 from .models import Recipe
 
-def zipdir(path, ziph):
-    # ziph is zipfile handle
+def zipdir(path, zip_name):
+    os.chdir(path)
+    zipf = zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED)
     for root, dirs, files in os.walk(path):
         for file in files:
-            ziph.write(os.path.join(root, file))
-
-if __name__ == '__main__':
-    zipf = zipfile.ZipFile('Python.zip', 'w', zipfile.ZIP_DEFLATED)
-    zipdir('tmp/', zipf)
+            zipf.write(os.path.join(root, file))
     zipf.close()
-
-
+    
+    
 
 def import_template(export_file):
     """with open(export_file, 'w', newline='') as csvfile:

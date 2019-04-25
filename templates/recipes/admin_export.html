@@ -5,5 +5,9 @@
 <form action="" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <div>Search: <input id="search" type="text"> <div class="pure-button" id="searchbtn">Search</div></div>
+<select name="images">
+    <option selected="selected">Export Recipes Only</option>
+    <option>Export Images</option>
+</select>
 {% include 'recipes/admin_recipe_list.html' %}
 {% endblock %}

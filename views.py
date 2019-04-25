@@ -31,6 +31,7 @@ from django.template import loader
 
 import mimetypes
 import tempfile
+from shutil import copy
 
 from .resize import createPreview, createThumbnail, createThumbnailSquare
 import recipes.import_export
@@ -249,23 +250,45 @@ def admin_export(request):
     all_recipes = Recipe.objects.filter(Deleted__exact=False)
     
     if request.method == "POST":
+        images=False
+        
         recipes_list = []
+        
         for post in request.POST:
             if post == 'csrfmiddlewaretoken':
                 continue
+            if post == 'images':
+                images=True
+                continue
             else:
                 recipes_list.append(post)
-        
-        fp = tempfile.TemporaryFile(mode='w+')
-        recipes.import_export.export_download(recipes_list, fp)
-        fp.seek(0)
-        response = HttpResponse(fp, content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=recipe export.csv'
-        return response
+                
+        if(images):
+            with tempfile.TemporaryDirectory() as tmpdirname:
+                print('created temporary directory', tmpdirname)
+                recipes.import_export.export(recipes_list, tmpdirname+'/recipe export.csv')
+                for recipe_id in recipes_list:
+                    recipe = Recipe.objects.get(pk=recipe_id)
+                    if recipe.Image:
+                        copy(default_storage.location+'/'+recipe.Image.name, tmpdirname)
+                with tempfile.TemporaryDirectory() as downloadtmp:
+                    print('created temporary directory', downloadtmp)
+                    recipes.import_export.zipdir(tmpdirname,downloadtmp+'/export.zip')
+                    fsock = open(downloadtmp+'/export.zip',"rb")
+                    response = HttpResponse(fsock, content_type='application/zip')
+                    response['Content-Disposition'] = 'attachment; filename=recipe export.zip'
+                    return response
+        else:
+            fp = tempfile.TemporaryFile(mode='w+')
+            recipes.import_export.export_download(recipes_list, fp)
+            fp.seek(0)
+            response = HttpResponse(fp, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename=recipe export.csv'
+            return response
         
 
     context = {'action':'Export', 'recipes': all_recipes, 'title':getTitle()}
-    return render(request, 'recipes/admin_delete.html', context)
+    return render(request, 'recipes/admin_export.html', context)
 
 def admin_import_template(request):
     
