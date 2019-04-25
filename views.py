@@ -30,8 +30,10 @@ from django.conf import settings
 from django.template import loader
 
 import mimetypes
+import tempfile
 
 from .resize import createPreview, createThumbnail, createThumbnailSquare
+import recipes.import_export
 
 from .models import Category, Recipe, Ingredient
 from .forms import *
@@ -242,6 +244,47 @@ def admin_delete(request):
     """
     context = {'action':'Delete', 'recipes': all_recipes, 'title':getTitle()}
     return render(request, 'recipes/admin_delete.html', context)
+    
+def admin_export(request):
+    all_recipes = Recipe.objects.all()
+    
+    if request.method == "POST":
+        recipes_list = []
+        for post in request.POST:
+            if post == 'csrfmiddlewaretoken':
+                continue
+            else:
+                recipes_list.append(post)
+        
+        fp = tempfile.TemporaryFile(mode='w+')
+        recipes.import_export.export_download(recipes_list, fp)
+        fp.seek(0)
+        response = HttpResponse(fp, content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=recipe export.csv'
+        return response
+        
+
+    context = {'action':'Export', 'recipes': all_recipes, 'title':getTitle()}
+    return render(request, 'recipes/admin_delete.html', context)
+
+def admin_import_template(request):
+    
+    fp = tempfile.TemporaryFile(mode='w+')
+    recipes.import_export.import_template(fp)
+    fp.seek(0)
+    response = HttpResponse(fp, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=recipe example.csv'
+    return response
+    
+def admin_import(request):
+    
+    if request.method == "POST":
+        
+        recipes.import_export.import_template("/tmp/example.csv")
+        
+
+    context = {'action':'Import', 'title':getTitle()}
+    return render(request, 'recipes/admin_import.html', context)
     
 def import_csv(request):
     context = {}

@@ -45,7 +45,6 @@ extract each line from csv to db, creating new id's
 import os
 import zipfile
 import csv
-import tempfile
 
 from .models import Recipe
 
@@ -62,6 +61,18 @@ if __name__ == '__main__':
 
 
 
+def import_template(export_file):
+    """with open(export_file, 'w', newline='') as csvfile:
+        fieldnames = ['id','Title','Prep_Time_hour','Prep_Time_min','Cook_Time_hour','Cook_Time_min','Serves','Category','Ingredients','Method','Notes','Image','Deleted']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+    """
+    fieldnames = ['id','Title','Prep_Time_hour','Prep_Time_min','Cook_Time_hour','Cook_Time_min','Serves','Category','Ingredients','Method','Notes','Image','Deleted']
+    writer = csv.DictWriter(export_file, fieldnames=fieldnames)
+
+    writer.writeheader()
+    
 def export(recipe_id_array, export_file):
     
     with open(export_file, 'w', newline='') as csvfile:
@@ -89,3 +100,28 @@ def export(recipe_id_array, export_file):
         
     
 
+def export_download(recipe_id_array, export_file):
+    
+
+    fieldnames = ['id','Title','Prep_Time_hour','Prep_Time_min','Cook_Time_hour','Cook_Time_min','Serves','Category','Ingredients','Method','Notes','Image','Deleted']
+    writer = csv.DictWriter(export_file, fieldnames=fieldnames)
+
+    writer.writeheader()
+    for recipe_id in recipe_id_array:
+        recipe = Recipe.objects.get(pk=recipe_id)
+        writer.writerow({
+        'id':recipe.id,
+        'Title':recipe.Title,
+        'Prep_Time_hour':recipe.Prep_Time_hour,
+        'Prep_Time_min':recipe.Prep_Time_min,
+        'Cook_Time_hour':recipe.Cook_Time_hour,
+        'Cook_Time_min':recipe.Cook_Time_min,
+        'Serves':recipe.Serves,
+        'Category':recipe.Category,
+        'Ingredients':recipe.Ingredients,
+        'Method':recipe.Method,
+        'Notes':recipe.Notes,
+        'Image':recipe.Image,
+        'Deleted':recipe.Deleted
+        })
+    

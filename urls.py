@@ -74,8 +74,9 @@ urlpatterns = [
     #admin
     url(r'^admin/$', views.admin_home, name='admin_home'),
     url(r'^admin/delete/$', views.admin_delete, name='admin_delete'),
-    #url(r'^admin/export/$', views.admin_export, name='admin_export'),
+    url(r'^admin/export/$', views.admin_export, name='admin_export'),
     #url(r'^admin/import/$', views.admin_import, name='admin_import'),
+    url(r'^admin/import/template$', views.admin_import_template, name='admin_import_template'),
     #url(r'^admin/settings/$', views.admin_settings, name='admin_settings'),
     #
     
