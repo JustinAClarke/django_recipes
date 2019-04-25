@@ -1,0 +1,49 @@
+<form action="" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div>Search: <input id="search" type="text"> <div class="pure-button" id="searchbtn">Search</div></div>
+<table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Catagory</th>
+            <th>{{ action }} <input id="change_all" type="checkbox"></th>
+        </tr>
+    </thead>
+    <tbody>
+{% for recipe in recipes %}
+        <tr class="recipes_list">
+            <td>{{ recipe.id }}</td>
+            <td>{{ recipe.Title }}</td>
+            <td>{{ recipe.Category }}</td>
+            <td>{% if recipe.Deleted %}<input type="checkbox" name="{{ recipe.id }}" checked="checked">{% else %}<input type="checkbox" name="{{ recipe.id }}">{%endif %}</td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+<button class="button-warning pure-button">{{ action }}</button>
+
+</form>
+<script>
+var recipes_list = document.getElementsByClassName("recipes_list"),
+    searchbtn = document.getElementById("searchbtn");
+    change_all = document.getElementById("change_all");
+    change_all.onchange = function(){
+        for(var i=0; i<recipes_list.length; i++){
+            recipes_list[i].children[3].children[0].checked=change_all.checked;
+        }
+    };
+    searchbtn.onclick = function(){
+        var search = document.getElementById("search").value;
+        for(var i=0; i<recipes_list.length; i++){
+            if( search != ''){
+                if( recipes_list[i].textContent.toLocaleLowerCase().includes(search) )
+                    recipes_list[i].classList.remove('hidden');
+                else 
+                    recipes_list[i].classList.add('hidden');
+            }else{
+                recipes_list[i].classList.remove('hidden');
+            }
+        }
+    };
+</script>

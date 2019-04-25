@@ -240,7 +240,7 @@ def admin_delete(request):
     else:
         pass
     """
-    context = {'recipes': all_recipes, 'title':getTitle()}
+    context = {'action':'Delete', 'recipes': all_recipes, 'title':getTitle()}
     return render(request, 'recipes/admin_delete.html', context)
     
 def import_csv(request):
