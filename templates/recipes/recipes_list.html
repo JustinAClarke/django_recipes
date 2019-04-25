@@ -12,8 +12,9 @@
 <div class="wid100">
 <ul class="wid100">
     {% for recipe in recipes %}
-        <div class="wid30 recipe_div">
         {% if not recipe.Deleted %}
+
+        <div class="wid30 recipe_div">
             <li>
             {% if recipe.Image %}
                 <a href="{% url 'recipes:single' recipe.Category_id recipe.id %}">
@@ -52,8 +53,9 @@
             
             {% endif %}
             </li>
-            {% endif %}
         </div>
+        {% endif %}
+
     {% empty %}
         No Recipes, Try adding one <a href="{% url 'recipes:addRecipe' category.id %}">here</a>
     {% endfor %}

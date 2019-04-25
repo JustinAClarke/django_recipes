@@ -71,6 +71,13 @@ urlpatterns = [
     url(r'^api/add_ing/$', views.add_ing, name='add_ing'),
     url(r'^api/add_cat/$', views.add_cat, name='add_cat'),
     
+    #admin
+    url(r'^admin/$', views.admin_home, name='admin_home'),
+    url(r'^admin/delete/$', views.admin_delete, name='admin_delete'),
+    #url(r'^admin/export/$', views.admin_export, name='admin_export'),
+    #url(r'^admin/import/$', views.admin_import, name='admin_import'),
+    #url(r'^admin/settings/$', views.admin_settings, name='admin_settings'),
+    #
     
     url(r'^test/(?P<recipe>[0-9]+)/$', views.test, name='test'),
     

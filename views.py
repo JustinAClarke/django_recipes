@@ -207,6 +207,42 @@ def sidebyside3(request, side1, side2, side3):
     context = {'recipe1': recipe1, 'recipe2': recipe2, 'recipe3': recipe3, 'title':getTitle()}
     return render(request, 'recipes/side3.html', context)
     
+    
+    #ADMIN
+    
+def admin_home(request):
+    
+    context = {'title':getTitle()}
+    return render(request, 'recipes/admin_home.html', context)
+    
+def admin_delete(request):
+    all_recipes = Recipe.objects.all()
+    
+    if request.method == "POST":
+        for recipe in all_recipes:
+            
+            if( request.POST.__contains__(str(recipe.id)) ):
+                recipe.Deleted = True
+                recipe.save()
+            elif( recipe.Deleted ):
+                recipe.Deleted = False
+                recipe.save()
+    """if request.method == "POST":
+        
+        for post in request.POST:
+            if post == 'csrfmiddlewaretoken':
+                continue
+            rec = get_object_or_404(Recipe, pk=post)
+            rec.Deleted = True
+            rec.save()
+        #recipe = RecipeForm(request.POST, request.FILES) # A form bound to the POST data
+        
+    else:
+        pass
+    """
+    context = {'recipes': all_recipes, 'title':getTitle()}
+    return render(request, 'recipes/admin_delete.html', context)
+    
 def import_csv(request):
     context = {}
     if request.method == "POST":
